@@ -2,6 +2,8 @@ package com.example.demo.error;
 
 import java.io.Serializable;
 
+import com.example.demo.bo.LcsResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LcsRequestValidationError implements Serializable {
+public class LcsError extends LcsResponse implements Serializable{
+
 
 	/**
 	 * 
@@ -24,16 +27,18 @@ public class LcsRequestValidationError implements Serializable {
 
 	private String errorMessage;
 	
-	public static LcsRequestValidationError of(String errorCode, String errorMessage) {
-		return new LcsRequestValidationError(errorCode, errorMessage);
+	public static LcsError of(String errorCode, String errorMessage) {
+		return new LcsError(errorCode, errorMessage);
 	}
 
 	@Override
 	public String toString() {
-		return "LcsRequestValidationError {"
+		return "LcsError {"
 				+ "errorCode=" + errorCode 
 				+ ", errorMessage=" + errorMessage 
 				+ "}";
 	}
+
+
 
 }

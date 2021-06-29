@@ -5,6 +5,10 @@ import java.util.List;
 
 import lombok.Getter;
 
+/**
+ * @author Sudhakar
+ *
+ */
 public class LcsRequestValidationException extends RuntimeException{
 
 	/**

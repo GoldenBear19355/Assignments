@@ -22,6 +22,7 @@ public class LcsServiceImpl implements LcsService {
 		return lcsAlgo(strings);
 	}
 
+//	TODO : Optimize with Suffix Trie Algo
 	private LcsResponse lcsAlgo(List<String> strings) {
 		int n = strings.size();
 		String s = strings.get(0);

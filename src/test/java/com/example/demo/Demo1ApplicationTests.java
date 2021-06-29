@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import com.example.demo.bo.LcsRequest;
 import com.example.demo.bo.LcsResponse;
@@ -41,11 +42,12 @@ public class Demo1ApplicationTests {
 
 		ObjectMapper mapper = new ObjectMapper();
 		LcsRequest request = mapper.readValue(IOUtils.resourceToURL(TEST_CASE1_SINGLE_LCS), LcsRequest.class);
-		LcsResponse response = endpoint.computeLcs(request);
+		ResponseEntity<LcsResponse> response = endpoint.computeLcs(request);
 		assertNotNull(response);
-		assertNotNull(response.getLcs());
-		assertEquals(1, response.getLcs().size());
-		assertEquals("comcast", response.getLcs().get(0).getValue());
+		assertNotNull(response.getBody());
+		assertNotNull(response.getBody().getLcs());
+		assertEquals(1, response.getBody().getLcs().size());
+		assertEquals("comcast", response.getBody().getLcs().get(0).getValue());
 
 	}
 
@@ -54,12 +56,12 @@ public class Demo1ApplicationTests {
 		ObjectMapper mapper = new ObjectMapper();
 		LcsRequest request = mapper.readValue(IOUtils.resourceToURL(TEST_CASE2_MULTIPLE_LCS), LcsRequest.class);
 
-		LcsResponse response = endpoint.computeLcs(request);
+		ResponseEntity<LcsResponse> response = endpoint.computeLcs(request);
 		assertNotNull(response);
-		assertNotNull(response.getLcs());
-		assertEquals(2,response.getLcs().size());
-		assertEquals("cast",response.getLcs().get(0).getValue());
-		assertEquals("hell",response.getLcs().get(1).getValue());
+		assertNotNull(response.getBody());
+		assertEquals(2,response.getBody().getLcs().size());
+		assertEquals("cast",response.getBody().getLcs().get(0).getValue());
+		assertEquals("hell",response.getBody().getLcs().get(1).getValue());
 
 	}
 
@@ -68,21 +70,22 @@ public class Demo1ApplicationTests {
 		ObjectMapper mapper = new ObjectMapper();
 		LcsRequest request = mapper.readValue(IOUtils.resourceToURL(TEST_CASE3_MULTIPLE_CASE_SENSITIVE_LCS), LcsRequest.class);
 
-		LcsResponse response = endpoint.computeLcs(request);
+		ResponseEntity<LcsResponse> response = endpoint.computeLcs(request);
 		assertNotNull(response);
-		assertNotNull(response.getLcs());
-		assertEquals(1,response.getLcs().size());
-		assertEquals("Co",response.getLcs().get(0).getValue());
+		assertNotNull(response.getBody());
+		assertNotNull(response.getBody().getLcs());
+		assertEquals(1,response.getBody().getLcs().size());
+		assertEquals("Co",response.getBody().getLcs().get(0).getValue());
 	}
 
 	@Test
 	public void testFindLcs_case4() throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		LcsRequest request = mapper.readValue(IOUtils.resourceToURL(TEST_CASE4_NO_LCS), LcsRequest.class);
-		LcsResponse response = endpoint.computeLcs(request);
+		ResponseEntity<LcsResponse> response = endpoint.computeLcs(request);
 		assertNotNull(response);
-		assertNotNull(response.getLcs());
-		assertEquals(0, response.getLcs().size());
+		assertNotNull(response.getBody().getLcs());
+		assertEquals(0, response.getBody().getLcs().size());
 	}
 
 }
