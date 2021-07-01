@@ -4,6 +4,10 @@ $(document).ready(function () {
 
         //stop submit the form, we will post it manually.
         event.preventDefault();
+        var requestjson = "<h4>LCS Request</h4>"
+            + $("#setofstrings").val();
+        $('#lcsrequest').html(requestjson);
+
 // Manual submit
         post_ajax_submit();
 
