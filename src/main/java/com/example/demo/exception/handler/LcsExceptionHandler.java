@@ -1,5 +1,7 @@
 package com.example.demo.exception.handler;
 
+import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.example.demo.error.LcsRequestValidationError;
 import com.example.demo.error.LcsRequestValidationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Sudhakar
  *
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 @Slf4j
 public class LcsExceptionHandler extends ResponseEntityExceptionHandler {
 	
@@ -42,7 +45,17 @@ public class LcsExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(value= Exception.class)
 	public ResponseEntity<Object> handleUnknownException(Exception ex){
+		return new ResponseEntity<>(LcsRequestValidationError.of("5000", ex.getMessage()), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(value= JsonMappingException.class)
+	public ResponseEntity<Object> handleParsingException(IOException ex){
 		return new ResponseEntity<>(LcsRequestValidationError.of("4000", ex.getMessage()), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(value= InputMismatchException.class)
+	public ResponseEntity<Object> handleInputMismtachException(Exception ex){
+		return new ResponseEntity<>(LcsRequestValidationError.of("6000", ex.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 	
 	@Override
